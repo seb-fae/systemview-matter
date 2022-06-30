@@ -1,0 +1,65 @@
+diff --git a/examples/light-switch-app/efr32/include/FreeRTOSConfig.h b/examples/light-switch-app/efr32/include/FreeRTOSConfig.h
+index 54d7b544f..a437c8d05 100644
+--- a/examples/light-switch-app/efr32/include/FreeRTOSConfig.h
++++ b/examples/light-switch-app/efr32/include/FreeRTOSConfig.h
+@@ -115,6 +115,9 @@ extern "C" {
+ #include "sl_component_catalog.h"
+ #endif
+ 
++#include "SEGGER_SYSVIEW_FreeRTOS.h"
+ /*-----------------------------------------------------------
+  * Application specific definitions.
+  *
+@@ -134,6 +137,7 @@ extern "C" {
+ #define configUSE_TICKLESS_IDLE 0
+ #endif // SL_CATALOG_POWER_MANAGER_PRESENT
+ 
++ 
+ #define configTICK_RATE_HZ (1000)
+ /* Definition used by Keil to replace default system clock source. */
+diff --git a/third_party/efr32_sdk/efr32_sdk.gni b/third_party/efr32_sdk/efr32_sdk.gni
+index 9b7c13c4d..95597e11d 100644
+--- a/third_party/efr32_sdk/efr32_sdk.gni
++++ b/third_party/efr32_sdk/efr32_sdk.gni
+@@ -121,6 +121,11 @@ template("efr32_sdk") {
+       "${efr32_sdk_root}/util/third_party/crypto/sl_component/se_manager/src/",
+       "${efr32_sdk_root}/util/third_party/freertos/cmsis/Include",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/include",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/SEGGER",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/Config/Cortex-M",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Config/",
++      
+     ]
+ 
+     defines = [
+@@ -466,6 +471,9 @@ template("efr32_sdk") {
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/stream_buffer.c",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/tasks.c",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/timers.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/SEGGER/SEGGER_SYSVIEW.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/SEGGER_SYSVIEW_FreeRTOS.c",
+     ]
+ 
+     if (defined(invoker.enable_sleepy_device)) {
+diff --git a/matter/efr32/sl_event_handler.c b/matter/efr32/sl_event_handler.c
+index fa3a27dc..868d6266 100644
+--- a/matter/efr32/sl_event_handler.c
++++ b/matter/efr32/sl_event_handler.c
+@@ -28,6 +28,7 @@
+ #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
+ #include "sl_power_manager.h"
+ #endif
++#include "SEGGER_SYSVIEW.h"
+ 
+ void sl_platform_init(void)
+ {
+@@ -53,6 +54,7 @@ void sl_platform_init(void)
+ #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
+     sl_power_manager_init();
+ #endif
++    SEGGER_SYSVIEW_Conf();
+ }
+ 
+ void sl_kernel_start(void)
