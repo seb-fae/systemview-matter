@@ -1,4 +1,6 @@
-### Copy the systemview folder to the following repository of connectedhomeip
-connectedhomeip\third_party\efr32_sdk\repo\util\third_party\segger\
+# SystemView SUpport for EFR32 Matter Sample Applications
 
-### Apply diff contained in patch
+Matter Repo commit to which this was applied : `33f6a910cd9a8a0cfdd7088e2f43efd2f7f566a7`
+
+## Apply the patch to the repo 
+`git patch apply systemview_latest_matter.patch`
