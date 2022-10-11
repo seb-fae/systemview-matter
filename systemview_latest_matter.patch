@@ -1,0 +1,44 @@
+diff --git a/examples/platform/efr32/FreeRTOSConfig.h b/examples/platform/efr32/FreeRTOSConfig.h
+index f42179230..729c4d466 100644
+--- a/examples/platform/efr32/FreeRTOSConfig.h
++++ b/examples/platform/efr32/FreeRTOSConfig.h
+@@ -117,6 +117,8 @@ extern "C" {
+ #include "sl_component_catalog.h"
+ #endif
+ 
++#include "SEGGER_SYSVIEW_FreeRTOS.h"
++
+ /*-----------------------------------------------------------
+  * Application specific definitions.
+  *
+diff --git a/third_party/silabs/efr32_sdk.gni b/third_party/silabs/efr32_sdk.gni
+index c9742f1f9..a9fcab637 100644
+--- a/third_party/silabs/efr32_sdk.gni
++++ b/third_party/silabs/efr32_sdk.gni
+@@ -142,6 +142,10 @@ template("efr32_sdk") {
+       "${efr32_sdk_root}/util/third_party/crypto/sl_component/se_manager/src/",
+       "${efr32_sdk_root}/util/third_party/freertos/cmsis/Include",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/include",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/SEGGER",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/Config/Cortex-M",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Config/",
+       "${sdk_support_root}/matter/efr32/${efr32_family}/${efr32_board}/config",
+       "${sdk_support_root}/matter/efr32/${efr32_family}/${efr32_board}/autogen",
+     ]
+@@ -511,6 +515,9 @@ template("efr32_sdk") {
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/stream_buffer.c",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/tasks.c",
+       "${efr32_sdk_root}/util/third_party/freertos/kernel/timers.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/SEGGER/SEGGER_SYSVIEW.c",
++      "${efr32_sdk_root}/util/third_party/segger/systemview/Sample/FreeRTOSV10/SEGGER_SYSVIEW_FreeRTOS.c",
+       "${sdk_support_root}/matter/efr32/${efr32_family}/${efr32_board}/autogen/sl_board_default_init.c",
+       "${sdk_support_root}/matter/efr32/${efr32_family}/${efr32_board}/autogen/sl_device_init_clocks.c",
+       "${sdk_support_root}/matter/efr32/${efr32_family}/${efr32_board}/autogen/sl_event_handler.c",
+diff --git a/third_party/silabs/matter_support b/third_party/silabs/matter_support
+--- a/third_party/silabs/matter_support
++++ b/third_party/silabs/matter_support
+@@ -1 +1 @@
+-Subproject commit 2425fb72cacd540df505f11e7de81e6270ed1c40
++Subproject commit 2425fb72cacd540df505f11e7de81e6270ed1c40-dirty
